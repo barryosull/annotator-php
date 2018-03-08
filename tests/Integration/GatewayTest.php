@@ -7,13 +7,15 @@ use PHPUnit\Framework\TestCase;
 
 abstract class GatewayTest extends TestCase
 {
+    const ARTICLE_ID = "article-id";
+
     abstract protected function gateway(): Gateway;
 
     public function test_adding_an_annotation_gives_it_an_id()
     {
         $annotation = [];
 
-        $annotation = $this->gateway()->add($annotation);
+        $annotation = $this->gateway()->add(self::ARTICLE_ID, $annotation);
 
         $this->assertTrue(isset($annotation['id']));
     }
@@ -22,9 +24,9 @@ abstract class GatewayTest extends TestCase
     {
         $annotation = [];
 
-        $annotation = $this->gateway()->add($annotation);
+        $annotation = $this->gateway()->add(self::ARTICLE_ID, $annotation);
 
-        $actualAnnotation = $this->gateway()->get($annotation['id']);
+        $actualAnnotation = $this->gateway()->get(self::ARTICLE_ID, $annotation['id']);
 
         $this->assertEquals($annotation, $actualAnnotation);
     }
@@ -32,12 +34,12 @@ abstract class GatewayTest extends TestCase
     public function test_replacing_an_annotation()
     {
         $annotation = [];
-        $annotation = $this->gateway()->add($annotation);
+        $annotation = $this->gateway()->add(self::ARTICLE_ID, $annotation);
 
         $annotation['key'] = "value";
-        $this->gateway()->replace($annotation['id'], $annotation);
+        $this->gateway()->replace(self::ARTICLE_ID, $annotation['id'], $annotation);
 
-        $actualAnnotation = $this->gateway()->get($annotation['id']);
+        $actualAnnotation = $this->gateway()->get(self::ARTICLE_ID, $annotation['id']);
 
         $this->assertEquals($annotation, $actualAnnotation);
     }
@@ -46,10 +48,10 @@ abstract class GatewayTest extends TestCase
     {
         $annotationA = ['a'];
         $annotationB = ['b'];
-        $annotationA = $this->gateway()->add($annotationA);
-        $annotationB = $this->gateway()->add($annotationB);
+        $annotationA = $this->gateway()->add(self::ARTICLE_ID, $annotationA);
+        $annotationB = $this->gateway()->add(self::ARTICLE_ID, $annotationB);
 
-        $actual = $this->gateway()->all();
+        $actual = $this->gateway()->all(self::ARTICLE_ID);
 
         $this->assertEquals([$annotationA, $annotationB], $actual);
     }
@@ -57,10 +59,10 @@ abstract class GatewayTest extends TestCase
     public function test_deleting_an_annotation()
     {
         $annotation = [];
-        $annotation = $this->gateway()->add($annotation);
-        $this->gateway()->delete($annotation['id']);
+        $annotation = $this->gateway()->add(self::ARTICLE_ID, $annotation);
+        $this->gateway()->delete(self::ARTICLE_ID, $annotation['id']);
 
-        $actual = $this->gateway()->all();
+        $actual = $this->gateway()->all(self::ARTICLE_ID);
 
         $this->assertEmpty($actual);
     }

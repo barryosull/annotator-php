@@ -4,13 +4,13 @@ namespace Annotator\Flysystem;
 
 interface Gateway
 {
-    public function all(): array;
+    public function all($articleId): array;
 
-    public function add($annotation): array;
+    public function add($articleId, $annotation): array;
 
-    public function get($id): array;
+    public function get($articleId, $annotationId): array;
 
-    public function replace($id, $annotation): void;
+    public function replace($articleId, $annotationId, $annotation);
 
-    public function delete($id): void;
+    public function delete($articleId, $annotationId);
 }

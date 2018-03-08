@@ -19,9 +19,9 @@ class GatewayFlysystem implements Gateway
         $this->filesystem = new Flysystem\Filesystem($adapter);
     }
 
-    public function all(): array
+    public function all($articleId): array
     {
-        $files = $this->filesystem->listContents();
+        $files = $this->filesystem->listContents("$articleId/");
         $annotations = [];
         foreach ($files as $file) {
             if ($file['type'] == 'file') {
@@ -32,27 +32,27 @@ class GatewayFlysystem implements Gateway
         return $annotations;
     }
 
-    public function add($annotation): array
+    public function add($articleId, $annotation): array
     {
         $annotation['id'] = Uuid::uuid4()->toString();
 
-        $this->filesystem->write("{$annotation['id']}.ant", json_encode($annotation));
+        $this->filesystem->write("$articleId/{$annotation['id']}.ant", json_encode($annotation));
 
         return $annotation;
     }
 
-    public function get($id): array
+    public function get($articleId, $annotationId): array
     {
-        return json_decode($this->filesystem->read("{$id}.ant"), true);
+        return json_decode($this->filesystem->read("$articleId/{$annotationId}.ant"), true);
     }
 
-    public function replace($id, $annotation): void
+    public function replace($articleId, $annotationId, $annotation)
     {
-        $this->filesystem->put("{$id}.ant", json_encode($annotation));
+        $this->filesystem->put("$articleId/{$annotationId}.ant", json_encode($annotation));
     }
 
-    public function delete($id): void
+    public function delete($articleId, $annotationId)
     {
-        $this->filesystem->delete("{$id}.ant");
+        $this->filesystem->delete("$articleId/{$annotationId}.ant");
     }
 }

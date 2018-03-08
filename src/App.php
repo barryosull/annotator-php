@@ -9,11 +9,13 @@ require __DIR__.'/config.php';
 
 class App
 {
+    private $baseUrl;
     private $gateway;
 
-    public function __construct(string $storage_path)
+    public function __construct(string $baseUrl, string $storagePath)
     {
-        $adapter = new Local($storage_path);
+        $this->baseUrl = $baseUrl;
+        $adapter = new Local($storagePath);
         $this->gateway = new GatewayFlysystem($adapter);
     }
 
@@ -35,7 +37,7 @@ class App
          * Endpoints.
          * @see https://github.com/okfn/annotator/wiki/Storage
          */
-        $app->get('/', function () use ($app) {
+        $app->get($this->baseUrl, function () use ($app) {
             $out = array(
                 'name'    => "Annotator Store API (PHP)",
                 'version' => '1.0.0',
@@ -44,37 +46,37 @@ class App
             return $app->json($out);
         });
 
-        $app->get('/annotations', function () use ($app) {
+        $app->get($this->baseUrl.'/{article_id}/annotations', function ($article_id) use ($app) {
 
-            $annotations = $this->gateway->all();
+            $annotations = $this->gateway->all($article_id);
 
             return $app->json($annotations);
         });
 
-        $app->post('/annotations', function () use ($app) {
+        $app->post($this->baseUrl.'/{article_id}/annotations', function ($article_id) use ($app) {
 
-            $post = (new GatewayMongo())->add($app['data']);
-
-            return $app->json($post);
-        });
-
-        $app->get('/annotations/{id}', function ($id) use ($app) {
-
-            $post = $this->gateway->get($id);
+            $post = $this->gateway->add($article_id, $app['data']);
 
             return $app->json($post);
         });
 
-        $app->put('/annotations/{id}', function (Request $request, $id) use ($app) {
+        $app->get($this->baseUrl.'/{article_id}/annotations/{id}', function ($article_id, $id) use ($app) {
 
-            $this->gateway->replace($id, $app['data']);
+            $post = $this->gateway->get($article_id, $id);
+
+            return $app->json($post);
+        });
+
+        $app->put($this->baseUrl.'/{article_id}/annotations/{id}', function (Request $request, $article_id, $id) use ($app) {
+
+            $this->gateway->replace($article_id, $id, $app['data']);
 
             return new Response('', 303, array('Location' => $request->getUri()));
         });
 
-        $app->delete('/annotations/{id}', function (Request $request, $id) use ($app) {
+        $app->delete($this->baseUrl.'/{article_id}/annotations/{id}', function ($article_id, $id) use ($app) {
 
-            $this->gateway->delete($id);
+            $this->gateway->delete($article_id, $id);
 
             return new Response('', 204);
         });
@@ -83,7 +85,7 @@ class App
          * Auth Endpoint.
          * @see https://github.com/okfn/annotator/wiki/Authentication
          */
-        $app->get('/auth/token', function () use ($app) {
+        $app->get($this->baseUrl.'/auth/token', function () use ($app) {
             $jwt = JWT::encode(
                 [
                     'consumerKey' => CONSUMER_KEY,
