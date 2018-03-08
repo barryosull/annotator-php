@@ -4,52 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e8759ea64ef66a28f2aad10caa882636",
-    "content-hash": "56ecfe870b0b0933bdc7476b1208f880",
+    "hash": "fb53b63f7166fc6dce3f3e3f0c01b84f",
+    "content-hash": "3df84b54eb1aecb9cd6646365d5b0091",
     "packages": [
-        {
-            "name": "f21/jwt",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/F21/jwt.git",
-                "reference": "d549135ed992e257d22a78828114d3335b7d498f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/F21/jwt/zipball/d549135ed992e257d22a78828114d3335b7d498f",
-                "reference": "d549135ed992e257d22a78828114d3335b7d498f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JWT": "JWT/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Francis Chuang",
-                    "email": "francis.chuang@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "JWT (JSON Web Tokens) for PHP",
-            "homepage": "https://github.com/F21/jwt",
-            "keywords": [
-                "json web tokens",
-                "jwt"
-            ],
-            "abandoned": "lcobucci/jwt",
-            "time": "2017-03-10 05:42:00"
-        },
         {
             "name": "league/flysystem",
             "version": "dev-master",

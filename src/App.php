@@ -3,7 +3,6 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use League\Flysystem\Adapter\Local;
-use JWT;
 
 class App
 {
