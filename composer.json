@@ -1,5 +1,5 @@
 {
-    "name": "julien-c/annotator-php",
+    "name": "barryosull/annotator-php",
     "description": "Annotator store built on Silex and Flysystem",
     "authors": [
         {
