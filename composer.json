@@ -1,16 +1,35 @@
 {
     "name": "julien-c/annotator-php",
-    "description": "Annotator store built on Silex and MongoDB",
+    "description": "Annotator store built on Silex and Flysystem",
     "authors": [
         {
             "name": "Julien Chaumond",
             "email": "chaumond@gmail.com"
+        },
+        {
+            "name": "Barry O Sullivan",
+            "email": "barry@tercet.io"
         }
     ],
     "minimum-stability": "dev",
     "require": {
         "silex/silex": "1.0.*@dev",
-        "f21/jwt": "*"
-
+        "f21/jwt": "*",
+        "league/flysystem": "^1.0",
+        "league/flysystem-memory": "^1.0",
+        "ramsey/uuid": "^3.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Annotator\\Flysystem\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
     }
 }
