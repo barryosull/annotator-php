@@ -5,8 +5,6 @@ use Symfony\Component\HttpFoundation\Response;
 use League\Flysystem\Adapter\Local;
 use JWT;
 
-require __DIR__.'/config.php';
-
 class App
 {
     private $baseUrl;
@@ -79,24 +77,6 @@ class App
             $this->gateway->delete($article_id, $id);
 
             return new Response('', 204);
-        });
-
-        /***
-         * Auth Endpoint.
-         * @see https://github.com/okfn/annotator/wiki/Authentication
-         */
-        $app->get($this->baseUrl.'/auth/token', function () use ($app) {
-            $jwt = JWT::encode(
-                [
-                    'consumerKey' => CONSUMER_KEY,
-                    'userId'      => USER_ID,
-                    'issuedAt'    => time(),
-                    'ttl'         => CONSUMER_TTL
-                ],
-                CONSUMER_SECRET
-            );
-
-            return new Response($jwt);
         });
 
         /***
