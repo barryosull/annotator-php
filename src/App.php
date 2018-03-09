@@ -16,7 +16,7 @@ class App
         $this->gateway = new GatewayFlysystem($adapter);
     }
 
-    public function boot()
+    public function run()
     {
         $app = new \Silex\Application();
 
